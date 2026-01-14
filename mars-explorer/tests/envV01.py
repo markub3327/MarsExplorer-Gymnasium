@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import numpy as np
 import math
 import time
@@ -12,7 +12,7 @@ conf["obstacle_size"] = [3,3]
 
 conf["viewer"]["night_color"] = (250,250,250)
 
-env = gym.make('mars_explorer:exploConf-v01', conf=conf)
+env = gymnasium.make('mars_explorer:exploConf-v01', conf=conf)
 observation = env.reset()
 
 for step in range(3):

@@ -5,16 +5,16 @@ from mars_explorer.utils.lidarSensor import Lidar
 from mars_explorer.render.viewer import Viewer
 from mars_explorer.envs.settings import DEFAULT_CONFIG
 
-import gym
-from gym import error, spaces, utils
-from gym.utils import seeding
+import gymnasium
+from gymnasium import error, spaces, utils
+from gymnasium.utils import seeding
 
-class ExplorerConf(gym.Env):
+class ExplorerConf(gymnasium.Env):
     metadata = {'render.modes': ['rgb_array'],
                 'video.frames_per_second': 6}
 
     """"Given that I can not pass configuration file via rlllib, I created another
-    environment only for the open ai gym"""
+    environment only for the gymnasium"""
 
     def __init__(self, conf=None):
 
@@ -30,8 +30,8 @@ class ExplorerConf(gym.Env):
 
         self.SIZE = self.conf["size"]
 
-        self.action_space = gym.spaces.Discrete(4)
-        self.observation_space = gym.spaces.Box(0.,1.,(self.sizeX, self.sizeY, 1))
+        self.action_space = gymnasium.spaces.Discrete(4)
+        self.observation_space = gymnasium.spaces.Box(0.,1.,(self.sizeX, self.sizeY, 1))
 
         self.viewerActive = False
 

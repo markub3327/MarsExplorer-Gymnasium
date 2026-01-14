@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import numpy as np
 import time
 import pygame as pg
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     args = getArgs()
     conf = get_conf()
 
-    env = gym.make('mars_explorer:exploConf-v01', conf=conf)
+    env = gymnasium.make('mars_explorer:exploConf-v01', conf=conf)
 
     rewards = []
     for game in range(args.games + args.warm_up):

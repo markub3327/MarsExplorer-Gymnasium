@@ -3,10 +3,10 @@ from setuptools import setup
 setup(
     name='mars_explorer',
     version='0.0.1',
-    keywords='exploration, robotics, environment, agent, rl, openaigym, openai-gym, gym',
+    keywords='exploration, robotics, environment, agent, rl, gymnasium',
     description='Exploration of unknonw areas using lidar',
     install_requires=[
-        'gym>=0.9.6',
+        'gymnasium>=1.2.3',
         'numpy>=1.19.2',
         'pygame>=2.0.0'
     ],

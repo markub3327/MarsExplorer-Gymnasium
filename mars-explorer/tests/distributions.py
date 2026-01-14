@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import numpy as np
 import math
 import time
@@ -103,7 +103,7 @@ def video_map(time=TIME_VIDEO):
 
 
 if not ONLY_VIDEO:
-    env = gym.make('mars_explorer:exploConf-v01', conf=conf)
+    env = gymnasium.make('mars_explorer:exploConf-v01', conf=conf)
     observation = env.reset()
 
     terrain = np.zeros((21, 21))
