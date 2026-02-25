@@ -36,8 +36,13 @@ class Explorer(gymnasium.Env):
 
         self.viewerActive = False
 
-    # def reset(self, initial=[0,0]):
-    def reset(self):
+    def reset(
+            self,
+            *,
+            seed: int | None = None,
+            options: dict | None = None,
+    ):
+        super().reset(seed=seed)
 
         self.maxSteps = self.conf["max_steps"]
 
@@ -97,7 +102,7 @@ class Explorer(gymnasium.Env):
         # convert to image format
         self.new_state = (self.new_state * 255.0).astype(np.uint8)
 
-        return self.new_state
+        return self.new_state, {}
 
     def action_space_sample(self):
         random = np.random.randint(4)
@@ -212,8 +217,7 @@ class Explorer(gymnasium.Env):
         # convert to image format
         self.new_state = (self.new_state * 255.0).astype(np.uint8)
 
-        info = {}
-        return self.state, self.reward, self.terminated, self.truncated, info
+        return self.new_state, self.reward, self.terminated, self.truncated, {}
 
     def close(self):
         if self.viewerActive:
