@@ -31,7 +31,7 @@ class Explorer(gymnasium.Env):
 
         self.action_space = gymnasium.spaces.Discrete(4)
         self.observation_space = gymnasium.spaces.Box(
-            0.0, 1.0, (self.sizeX, self.sizeY, 1)
+            low=0, high=255, shape=(self.sizeX, self.sizeY, 1), dtype=np.uint8
         )
 
         self.viewerActive = False
@@ -84,7 +84,8 @@ class Explorer(gymnasium.Env):
 
         self.new_state = np.reshape(self.outputMap, (self.sizeX, self.sizeY, 1))
         self.reward = 0
-        self.done = False
+        self.terminated = False
+        self.truncated = False
 
         self.timeStep = 0
 
@@ -92,6 +93,9 @@ class Explorer(gymnasium.Env):
         self.out_of_bounds = False
         self.collision = False
         self.action = 0
+
+        # convert to image format
+        self.new_state = (self.new_state * 255.0).astype(np.uint8)
 
         return self.new_state
 
@@ -180,15 +184,15 @@ class Explorer(gymnasium.Env):
     def _checkDone(self):
 
         if self.timeStep > self.maxSteps:
-            self.done = True
+            self.truncated = True
         elif np.count_nonzero(self.exploredMap) > 0.95 * (self.SIZE[0] * self.SIZE[1]):
-            self.done = True
+            self.terminated = True
             self.reward = self.conf["bonus_reward"]
         elif self.collision:
-            self.done = True
+            self.terminated = True
             self.reward = self.conf["collision_reward"]
         elif self.out_of_bounds:
-            self.done = True
+            self.terminated = True
             self.reward = self.conf["out_of_bounds_reward"]
 
     def _updateTrajectory(self):
@@ -205,8 +209,11 @@ class Explorer(gymnasium.Env):
         self._checkDone()
         self._updateTrajectory()
 
+        # convert to image format
+        self.new_state = (self.new_state * 255.0).astype(np.uint8)
+
         info = {}
-        return self.new_state, self.reward, self.done, info
+        return self.state, self.reward, self.terminated, self.truncated, info
 
     def close(self):
         if self.viewerActive:
